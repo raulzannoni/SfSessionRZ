@@ -50,6 +50,46 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /** Afficher le module lié à la session */
+    public function findModuleBySessionId($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        // sélectionner le module d'une session dont l'id est passé en paramètre
+        $sub->select('m.title')
+            ->from('App\Entity\represent', 'r')
+            ->join('r.modules', 'm')
+            ->join('r.sessions', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $session_id);
+
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findCategoryBySessionId($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        // sélectionner le module d'une session dont l'id est passé en paramètre
+        $sub->select('c.title')
+            ->from('App\Entity\represent', 'r')
+            ->join('r.modules', 'm')
+            ->join('m.categorie', 'c')
+            ->join('r.sessions', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $session_id);
+
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+    }
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

@@ -25,9 +25,14 @@ class SessionController extends AbstractController
     public function show(EntityManagerInterface $entityManager, Session $session): Response
     {
         $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findNotSubscribed($session->getId());
+        $module = $entityManager->getRepository(Session::class)->findModuleBySessionId($session->getId());
+        $categorie = $entityManager->getRepository(Session::class)->findCategoryBySessionId($session->getId());
+
         return $this->render('session/show.html.twig', [
             'session' => $session,
-            'stagiairesNotSubscribed' => $stagiairesNotSubscribed
+            'stagiairesNotSubscribed' => $stagiairesNotSubscribed,
+            'module' => $module,
+            'categorie' => $categorie
         ]);
     }
 }

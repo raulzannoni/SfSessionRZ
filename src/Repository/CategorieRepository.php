@@ -21,6 +21,24 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
+    public function findModulesByCategoryId($category_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        // sélectionner le module d'une session dont l'id est passé en paramètre
+        $sub->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->join('c.modules', 'm')
+            ->where('c.id = :id')
+            ->setParameter('id', $category_id);
+
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+    }
+
 //    /**
 //     * @return Categorie[] Returns an array of Categorie objects
 //     */
