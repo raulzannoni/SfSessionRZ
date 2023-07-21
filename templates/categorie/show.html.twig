@@ -24,7 +24,7 @@
                                 {% for module in categorie.modules %}
                                 <tr>
                                 <th scope="row"><a href="{{ path('show_module', {'id' : module.id}) }}">{{module}}</a></th>
-                                <td>/</td>
+                                <td>{{module.represents|length}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
