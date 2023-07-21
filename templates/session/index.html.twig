@@ -13,7 +13,6 @@
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Session Name</th>
-                <th scope="col">Module</th>
                 <th scope="col">Date Start</th>
                 <th scope="col">Date End</th>
                 <th scope="col">Program</th>
@@ -23,8 +22,7 @@
                 {% for key, session in sessions %}
                 <tr>
                     <th scope="row">{{key + 1}}</th>
-                        <td><a href="">{{session}}</a></td>
-                        <td>module</td>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
                         <td>{{session.DateStart|date('d-m-Y')}}</td>
                         <td>{{session.DateEnd|date('d-m-Y')}}</td>
                         <td>{{session.Program}}</td>
@@ -32,5 +30,4 @@
                 {% endfor %}
             </tbody>
             </table>
-
 {% endblock %}
