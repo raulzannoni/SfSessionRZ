@@ -3,6 +3,29 @@
 {% block title %}New Stagiaire{% endblock %}
 
 {% block body %}
-    <h1>Add new Stagiaire</h1>
-    {{ form(formAddStagiaire) }}
+    {% if edit %}
+        <h1>Edit Stagiaire</h1>
+    {% else %}
+        <h1>Add new Stagiaire</h1>    
+    {% endif %}
+    
+    {#{{ form(formAddStagiaire) }}#}
+    {{ form_start(formAddStagiaire) }}
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.firstName) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.name) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.email) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.dateBirth) }}
+            </div>
+        </div>
+    {{ form_end(formAddStagiaire) }}
 {% endblock %}

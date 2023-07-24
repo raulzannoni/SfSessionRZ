@@ -3,6 +3,37 @@
 {% block title %}New Session{% endblock %}
 
 {% block body %}
-    <h1>Add new Session</h1>
-    {{ form(formAddSession) }}
+    {% if edit %}
+        <h1>Edit Session</h1>
+    {% else %}
+        <h1>Add new Session</h1>
+    {% endif %}
+    
+    {#{{ form(formAddSession) }}#}
+    {{ form_start(formAddSession) }}
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddSession.name) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddSession.totalPlaces) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddSession.dateStart) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddSession.dateEnd) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddSession.program) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddSession.formation) }}
+            </div>
+        </div>
+    {{ form_end(formAddSession) }}
 {% endblock %}
