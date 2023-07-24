@@ -27,7 +27,7 @@ class ModuleRepository extends ServiceEntityRepository
         $sub = $em->createQueryBuilder();
 
         // sélectionner le module d'une session dont l'id est passé en paramètre
-        $sub->select('m.title')
+        $sub->select('m')
             ->from('App\Entity\Represent', 'r')
             ->join('r.modules', 'm')
             ->join('r.sessions', 's')
