@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Stagiaire;
+use App\Form\SessionType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionController extends AbstractController
 {
@@ -18,6 +20,31 @@ class SessionController extends AbstractController
         $sessions = $entityManager->getRepository(Session::class)->findAll();
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions
+        ]);
+    }
+    
+    #[Route('/session/new', name: 'new_session')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $session = new Session();
+
+        $form = $this->createForm(SessionType::class, $session);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $session = $form->getData();
+            //prepare PDO
+            $entityManager->persist($session);
+            //execute PDO
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_session');
+
+        }
+        return $this->render('session/new.html.twig', [
+            'formAddSession' => $form
         ]);
     }
 

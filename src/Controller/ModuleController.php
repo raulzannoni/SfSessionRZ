@@ -21,10 +21,12 @@ class ModuleController extends AbstractController
     }
 
     #[Route('/module/{id}', name: 'show_module')]
-    public function show(Module $module): Response
+    public function show(EntityManagerInterface $entityManager, Module $module): Response
     {
+        $sessionsInModule = $entityManager->getRepository(Module::class)->findSessionsByModuleId($module->getId());
         return $this->render('module/show.html.twig', [
-            'module' => $module
+            'module' => $module,
+            'sessionsInModule' => $sessionsInModule
         ]);
     }
 }

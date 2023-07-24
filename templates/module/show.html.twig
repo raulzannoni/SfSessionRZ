@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detail of Module: {{module}}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+    <h1>Detail of Module: {{module}}</h1>
+        <div class="m-3">
+            <div class="card mb-3" style="max-width: 1024px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <h2 class="card-title"></h2><br>
+                            <p class="card-textlh-1"><b>Number of Sessions: </b></p>
+                            <p class="card-textlh-1"><b>Name : </b>{{module}}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <h4>Program</h4>
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                <th scope="col">Session</th>
+                                <th scope="col">Date Start</th>
+                                <th scope="col">Date End</th>
+                                <th scope="col">Program</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in sessionsInModule %}
+                                <tr>
+                                <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
+                                <td>/</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                <th colspan=2><b>Total Days : </b></th>
+                                <th colspan=2><b> Oibo</b></th>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    <div>
+                </div>
+            </div>
+        </div>
+        
+{% endblock %}

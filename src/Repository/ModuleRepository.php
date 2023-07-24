@@ -21,6 +21,25 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
+    public function findSessionsByModuleId($module_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        // sélectionner le module d'une session dont l'id est passé en paramètre
+        $sub->select('m.title')
+            ->from('App\Entity\Represent', 'r')
+            ->join('r.modules', 'm')
+            ->join('r.sessions', 's')
+            ->where('m.id = :id')
+            ->setParameter('id', $module_id);
+
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+
+    }
+
 //    /**
 //     * @return Module[] Returns an array of Module objects
 //     */

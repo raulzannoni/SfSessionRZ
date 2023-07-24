@@ -39,6 +39,7 @@ class Session
     private Collection $stagiaires;
 
     #[ORM\OneToMany(mappedBy: 'sessions', targetEntity: Represent::class)]
+    //#[ORM\OrderBy(["dateStart" => "DESC"])]
     private Collection $represents;
 
     public function __construct()
