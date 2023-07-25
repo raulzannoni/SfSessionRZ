@@ -18,7 +18,7 @@
                             <p class="card-textlh-1"><b>Name : </b>{{stagiaire.Name|upper}}</p>
                             <p class="card-textlh-1"><b>Email : </b>{{stagiaire.Email}}</p>
                             <p class="card-textlh-1"><b>Birth date : </b>{{stagiaire.DateBirth|date('d-m-Y')}}</p>
-                            <h3>Sessions</h3>
+                            <h3>Sessions Inscripted</h3>
                             <table class="table table-striped table-dark">
                                 <thead>
                                     <tr>
@@ -47,7 +47,7 @@
                                             <td>{{session.DateStart|date('d-m-Y')}}</td>
                                             <td>{{session.DateEnd|date('d-m-Y')}}</td>
                                             <td>{{session.stagiaires|length}}/{{session.TotalPlaces}}</td>
-                                            <td></td>
+                                            <td><a href="{#{{ path('remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}#}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

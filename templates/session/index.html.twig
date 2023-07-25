@@ -14,9 +14,11 @@
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Session Name</th>
+                <th scope="col">Status</th>
                 <th scope="col">Date Start</th>
                 <th scope="col">Date End</th>
                 <th scope="col">Program</th>
+                <th scope="col">Inscription</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Remove</th>
                 </tr>
@@ -26,9 +28,15 @@
                 <tr>
                     <th scope="row">{{key + 1}}</th>
                         <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
                         <td>{{session.DateStart|date('d-m-Y')}}</td>
                         <td>{{session.DateEnd|date('d-m-Y')}}</td>
                         <td>{{session.Program}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
                         <td><a href="{{ path('edit_session', {'id' : session.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a></td>
                         <td><a class="btn btn-danger" href="{{ path('remove_session', {'id' : session.id}) }}">Remove</a></td>
                 </tr>
