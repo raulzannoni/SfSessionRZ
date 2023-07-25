@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="card-body">
                             <h2 class="card-title"></h2><br>
-                            <p class="card-textlh-1"><b>Number of Sessions: </b></p>
+                            <p class="card-textlh-1"><b>Number of Sessions: </b>{{module.represents|length}}</p>
                             <p class="card-textlh-1"><b>Name : </b>{{module}}</p>
                         </div>
                     </div>
@@ -34,16 +34,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for session in sessionsInModule %}
+                                {% for represent in module.represents %}
                                 <tr>
-                                <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
-                                <td>/</td>
+                                <th scope="row"><a href="{{ path('show_session', {'id' : represent.sessions.id}) }}">{{represent.sessions}}</a></th>
+                                <td>{{represent.sessions.dateStart|date('d-m-Y')}}</td>
+                                <td>{{represent.sessions.dateEnd|date('d-m-Y')}}</td>
+                                <td>{{represent.sessions.program('d-m-Y')}}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>
-                                <th colspan=2><b>Total Days : </b></th>
+                                {#<th colspan=2><b>Total Days : </b></th>
                                 <th colspan=2><b> Oibo</b></th>
-                                </tr> 
+                                </tr> #}
                             </tbody>
                         </table>
                     <div>

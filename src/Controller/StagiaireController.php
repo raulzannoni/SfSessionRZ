@@ -50,7 +50,6 @@ class StagiaireController extends AbstractController
             'formAddStagiaire' => $form,
             'edit' => $stagiaire->getId()
         ]);
-
     }
 
     #[Route('/stagiaire/{id}/remove', name: 'remove_stagiaire')]

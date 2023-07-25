@@ -90,6 +90,13 @@ class SessionRepository extends ServiceEntityRepository
 
     }
 
+    public function addStagiaireById($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+    }
+
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

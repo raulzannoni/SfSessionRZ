@@ -29,7 +29,7 @@
                         <td>{{session.DateStart|date('d-m-Y')}}</td>
                         <td>{{session.DateEnd|date('d-m-Y')}}</td>
                         <td>{{session.Program}}</td>
-                        <td><a href="{{ path('edit_session', {'id' : session.id}) }}"><i class="fal fa-edit" style="color: #11d432;"></i></a></td>
+                        <td><a href="{{ path('edit_session', {'id' : session.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a></td>
                         <td><a class="btn btn-danger" href="{{ path('remove_session', {'id' : session.id}) }}">Remove</a></td>
                 </tr>
                 {% endfor %}
