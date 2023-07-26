@@ -8,15 +8,15 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
     <h1>List of Stagiaires</h1>
-        <a href="{{ path('new_stagiaire')}}" class "btn btn-success">Add Stagiaire</a><br>
-    <table class="table table-striped table-dark">
+        <a href="{{ path('new_stagiaire')}}" class="btn btn-success">Add Stagiaire</a><br>
+    <table class="table table-striped table-dark text-center">
             <thead>
                 <tr>
                 <th scope="col">#</th>
                 <th scope="col">Stagiaire</th>
                 <th scope="col">Birth Date</th>
                 <th scope="col">E-mail</th>
-                <th scope="col">Sessions inscription</th>
+                <th scope="col">Sessions registered</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Remove</th>
                 </tr>
@@ -29,7 +29,7 @@
                         <td>{{stagiaire.DateBirth|date('d-m-Y')}}</td>
                         <td>{{stagiaire.Email}}</td>
                         <td>{{stagiaire.sessions|length}}</td>
-                        <td><a href="{{ path('edit_stagiaire', {'id' : stagiaire.id}) }}"><i class="fal fa-edit" style="color: #11d432;"></i></a></td>
+                        <td><a class="btn btn-warning" href="{{ path('edit_stagiaire', {'id' : stagiaire.id}) }}">Edit</a></td>
                         <td><a class="btn btn-danger" href="{{ path('remove_stagiaire', {'id' : stagiaire.id}) }}">Remove</i></a></td>
                 </tr>
                 {% endfor %}
