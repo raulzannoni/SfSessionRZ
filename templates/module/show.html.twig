@@ -30,16 +30,24 @@
                                 <th scope="col">Session</th>
                                 <th scope="col">Date Start</th>
                                 <th scope="col">Date End</th>
-                                <th scope="col">Program</th>
+                                <th scope="col">Teacher</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for represent in module.represents %}
                                 <tr>
-                                <th scope="row"><a href="{{ path('show_session', {'id' : represent.sessions.id}) }}">{{represent.sessions}}</a></th>
+                                {% if app.user %}
+                                    <th scope="row"><a href="{{ path('show_session', {'id' : represent.sessions.id}) }}">{{represent.sessions}}</a></th>
+                                {% else %}
+                                    <th scope="row">{{represent.sessions}}</th>
+                                {% endif %}
                                 <td>{{represent.sessions.dateStart|date('d-m-Y')}}</td>
                                 <td>{{represent.sessions.dateEnd|date('d-m-Y')}}</td>
-                                <td>{{represent.sessions.program('d-m-Y')}}</td>
+                                {% if app.user %}
+                                    <td><a href="{{ path('show_trainer', {'id' : represent.sessions.trainer.id}) }}">{{represent.sessions.trainer}}</a></td>
+                                {% else %}
+                                    <td>{{represent.sessions.trainer}}</td>
+                                {% endif %}
                                 </tr>
                                 {% endfor %}
                                 <tr>

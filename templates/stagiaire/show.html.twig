@@ -22,32 +22,35 @@
                             <table class="table table-striped table-dark">
                                 <thead>
                                     <tr>
-                                    <th scope="col">Status</th>
                                     <th scope="col">Session</th>
                                     <th scope="col">Module</th>
                                     <th scope="col">Categorie</th>
                                     <th scope="col">Date Start</th>
                                     <th scope="col">Date End</th>
                                     <th scope="col">Inscriptions</th>
-                                    <th scope="col">Unsubscribe</th>
+                                    <th scope="col">Status</th>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <th scope="col">Unsubscribe</th>
+                                    {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for session in stagiaire.sessions %}
                                     <tr>
-                                        <th scope="row">
-                                        {% if session.stagiaires|length == session.TotalPlaces %}
-                                        <i class="fa-solid fa-circle" style="color: #ff0000;"></i></th>
-                                        {% elseif session.stagiaires|length < session.TotalPlaces %}
-                                        <i class="fa-solid fa-circle" style="color: #00ff40;"></i>
-                                        {% endif %}
-                                            <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                                        <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
                                             <td></td>
                                             <td></td>
                                             <td>{{session.DateStart|date('d-m-Y')}}</td>
                                             <td>{{session.DateEnd|date('d-m-Y')}}</td>
                                             <td>{{session.stagiaires|length}}/{{session.TotalPlaces}}</td>
-                                            <td><a href="{#{{ path('remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}#}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                            {% if session.stagiaires|length == session.TotalPlaces %}
+                                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                                            {% elseif session.stagiaires|length < session.TotalPlaces %}
+                                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                                            {% endif %}
+                                            {% if is_granted("ROLE_ADMIN") %}
+                                                <td><a href="{#{{ path('remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}#}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                            {% endif %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>

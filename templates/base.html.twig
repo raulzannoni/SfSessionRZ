@@ -19,14 +19,22 @@
         <header>
             <div id="header">
                 <nav class="navbar d-flex justify-content-around navbar-expand-lg navbar-dark bg-dark justify-content-space-around">
+                    <a href="{{ path('app_home') }}"> Home</a>
                     <a href="{{ path('app_categorie') }}"> Categories</a>
                     <a href="{{ path('app_module') }}">Modules</a>
-                    <a href="{{ path('app_session') }}">Sessions</a>
-                    {#<a href="{{ path('new_session') }}">Add Session</a>#}
-                    <a href="{{ path('app_stagiaire') }}">Stagiaires</a>
-                    {#<a href="{{ path('new_stagiaire') }}">Add Stagiaire</a>#}
-                    <a href="{{ path('app_trainer') }}">Trainers</a>
-                    <a href="">Admin</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_session') }}">Sessions</a>
+                        <a href="{{ path('app_stagiaire') }}">Stagiaires</a>
+                        <a href="{{ path('app_trainer') }}">Trainers</a>
+                        <a href="">My profile</a>
+                        <a href="{{ path('app_logout') }}">Logout</a>
+                    {% else %}
+                        <a href="{{ path('app_register') }}">Register</a>
+                        <a href="{{ path('app_login') }}">Login</a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="">ADMIN</a>
+                    {% endif %}
                 </nav>  
             </div>
         </header>

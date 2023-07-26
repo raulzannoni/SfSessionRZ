@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+    {% if app.user %}
+        <h1>Welcome {{app.user.pseudo}} !</h1>
+        <p>This app has been developed to manage stagiaires and sessions.</p><br>
+        <p>Now that you have registered, you can consult all the details of interns, sessions and trainers.</p><br>
+        <p>Enjoy the app {{app.user.pseudo}}!!!</p>
+    {% elseif is_granted("ROLE_ADMIN")  %}
+        <h1>Welcome ADMIN !</h1>
+        <p>This app has been developed to manage stagiaires and sessions.</p><br>
+        <p>As an administrator, now you can edit sessions and trainers, sign up and unsubscribe stagiaires, and schedule modules.</p><br>
+        <p>Enjoy the app {{app.user.pseudo}}!!!</p>
+    {% else %}
+        <h1>Welcome !</h1>
+        <p>This app has been developed to manage stagiaires and sessions.</p>
+        <p>As long as you do not register with an email or login with a profile, you can only consult the categories, modules and sessions proposed.</p>
+        <p>Enjoy the app visitor!!!</p>
+    {% endif %}
+    
+
+{% endblock %}
