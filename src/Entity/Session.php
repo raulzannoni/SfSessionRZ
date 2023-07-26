@@ -42,6 +42,10 @@ class Session
     //#[ORM\OrderBy(["dateStart" => "DESC"])]
     private Collection $represents;
 
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Trainer $trainer = null;
+
     public function __construct()
     {
         $this->stagiaires = new ArrayCollection();
@@ -185,5 +189,17 @@ class Session
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getTrainer(): ?Trainer
+    {
+        return $this->trainer;
+    }
+
+    public function setTrainer(?Trainer $trainer): static
+    {
+        $this->trainer = $trainer;
+
+        return $this;
     }
 }

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Trainer{% endblock %}
+
+{% block body %}
+    {% if edit %}
+        <h1>Edit Trainer</h1>
+    {% else %}
+        <h1>Add new Trainer</h1>    
+    {% endif %}
+    
+    {#{{ form(formAddtrainer) }}#}
+    {{ form_start(formAddTrainer) }}
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddTrainer.firstName) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddTrainer.name) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddTrainer.email) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddTrainer.dateBirth) }}
+            </div>
+        </div>
+    {{ form_end(formAddTrainer) }}
+{% endblock %}

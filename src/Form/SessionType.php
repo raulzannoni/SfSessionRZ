@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Session;
 use App\Entity\Formation;
 use App\Entity\Stagiaire;
+use App\Entity\Trainer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -50,6 +51,12 @@ class SessionType extends AbstractType
                 ])
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('trainer', EntityType::class, [
+                'class' => Trainer::class,
                 'attr' => [
                     'class' => 'form-control'
                 ]

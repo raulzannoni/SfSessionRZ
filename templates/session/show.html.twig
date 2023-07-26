@@ -14,7 +14,7 @@
                     <div class="col-md-12">
                         <div class="card-body">
                             <h2 class="card-title"></h2><br>
-                            <p class="card-textlh-1"><b>Teacher : </b></p>
+                            <p class="card-textlh-1"><b>Trainer : </b><a href="{{ path('show_trainer', {'id' : session.Trainer.id}) }}">{{session.Trainer}}</a></p>
                             <p class="card-textlh-1"><b>Start date : </b>{{session.DateStart|date('d-m-Y')}}</p>
                             <p class="card-textlh-1"><b>End date : </b>{{session.DateEnd|date('d-m-Y')}}</p>
                             <p class="card-textlh-1"><b>Total places : </b>{{session.TotalPlaces}}</p>
