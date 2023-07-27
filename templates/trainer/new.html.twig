@@ -8,24 +8,37 @@
     {% else %}
         <h1>Add new Trainer</h1>    
     {% endif %}
-    
-    {#{{ form(formAddtrainer) }}#}
-    {{ form_start(formAddTrainer) }}
-        <div class="row">
-            <div class="col-sm">
-                {{ form_row(formAddTrainer.firstName) }}
-            </div>
-            <div class="col-sm">
-                {{ form_row(formAddTrainer.name) }}
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-11">
+                <div class="card text-black custom-card mx-auto my-5 d-flex" style="width: 550px; border-radius: 25px;">
+                    <div class="card-body p-md-5 d-flex justify-content-center align-items-center">
+                        <!-- Adjust the width value as per your requirement -->
+                        <div class="row justify-content-center" style="width: 100%; max-width: 550px;">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 w-100">
+                                {{ form_start(formAddTrainer) }}
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            {{ form_row(formAddTrainer.firstName) }}
+                                        </div>
+                                        <div class="col-sm">
+                                            {{ form_row(formAddTrainer.name) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            {{ form_row(formAddTrainer.email) }}
+                                        </div>
+                                        <div class="col-sm">
+                                            {{ form_row(formAddTrainer.dateBirth) }}
+                                        </div>
+                                    </div>
+                                {{ form_end(formAddTrainer) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm">
-                {{ form_row(formAddTrainer.email) }}
-            </div>
-            <div class="col-sm">
-                {{ form_row(formAddTrainer.dateBirth) }}
-            </div>
-        </div>
-    {{ form_end(formAddTrainer) }}
+    </div>
 {% endblock %}
