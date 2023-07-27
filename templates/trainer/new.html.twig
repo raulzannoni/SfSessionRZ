@@ -3,12 +3,12 @@
 {% block title %}New Trainer{% endblock %}
 
 {% block body %}
-    {% if edit %}
-        <h1>Edit Trainer</h1>
-    {% else %}
-        <h1>Add new Trainer</h1>    
-    {% endif %}
-    <div class="container h-100">
+    <div class="container h-100 w-100">
+        {% if edit %}
+            <h1>Edit Trainer</h1>
+        {% else %}
+            <h1>Add new Trainer</h1>    
+        {% endif %}
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-10 col-xl-11">
                 <div class="card text-black custom-card mx-auto my-5 d-flex" style="width: 550px; border-radius: 25px;">
