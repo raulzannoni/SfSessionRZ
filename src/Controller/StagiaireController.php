@@ -55,6 +55,15 @@ class StagiaireController extends AbstractController
         ]);
     }
 
+    #[Route('/stagiaire/{id}/remove', name: 'remove_stagiaire')]
+    public function remove(Stagiaire $stagiaire, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($stagiaire);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('app_stagiaire');
+    }
+
     /*  This method is developed to add and remove session from the current stagiaire*/
     #[Route('/stagiaire/{idStagiaire}/add_remove_Session/{idSession}', name: 'add_remove_session')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -65,10 +74,10 @@ class StagiaireController extends AbstractController
         $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
         if(in_array($stagiaire, $stagiaireSubscribed)){
-            $session->removeStagiaire($stagiaire);
+            $stagiaire->removeSession($session);
         }
         else{
-            $session->addStagiaire($stagiaire);
+            $stagiaire->addSession($session);
         }
 
         $entityManager->persist($session);
@@ -77,23 +86,22 @@ class StagiaireController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('show_stagiaire', ['id' => $stagiaire->getId()]);
-    }
+    } 
 
-    #[Route('/stagiaire/{id}/remove', name: 'remove_stagiaire')]
-    public function remove(Stagiaire $stagiaire, EntityManagerInterface $entityManager): Response
-    {
-        $entityManager->remove($stagiaire);
-        $entityManager->flush();
-        
-        return $this->redirectToRoute('app_stagiaire');
-    }
     
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
-    public function show(Stagiaire $stagiaire): Response
+    public function show(EntityManagerInterface $entityManager,Stagiaire $stagiaire): Response
     {
-        return $this->render('stagiaire/show.html.twig', [
-            'stagiaire' => $stagiaire
-        ]);
+        if($stagiaire){
+            $sessionsNotSubscribed = $entityManager->getRepository(Stagiaire::class)->findSessionsNotSubscribed($stagiaire->getId());
+        
+            return $this->render('stagiaire/show.html.twig', [
+                'stagiaire' => $stagiaire,
+                'sessionsNotSubscribed' => $sessionsNotSubscribed
+            ]);
+        } else {
+            return $this->redirectToRoute("app_stagiaire");
+        }
     }
 
 }
