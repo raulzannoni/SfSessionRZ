@@ -12,31 +12,26 @@
     width: 100vh; 
     padding: 20px;
     ">
-    {# {{ dump(stagiaireSubscribedArray) }} #}
     <h1>Detail of Session: {{session}}</h1>
     <div class="m-0">
         <div class="card mb-3" style="max-width: 1024px;">
             <div class="row g-0">
                 <div class="col-md-12">
                     <div class="card-body">
-                        <h2 class="card-title"></h2><br>
+                        {# <h2 class="card-title"></h2><br> #}
                         <p class="card-textlh-1"><b>Trainer : </b><a href="{{ path('show_trainer', {'id' : session.Trainer.id}) }}">{{session.Trainer}}</a></p>
                         <p class="card-textlh-1"><b>Start date : </b>{{session.DateStart|date('d-m-Y')}}</p>
                         <p class="card-textlh-1"><b>End date : </b>{{session.DateEnd|date('d-m-Y')}}</p>
                         <p class="card-textlh-1"><b>Total places : </b>{{session.TotalPlaces}}</p>
                         <p class="card-textlh-1"><b>Available places : </b>{{session.TotalPlaces - session.stagiaires|length}}</p>
-                    </div>
-                </div>
-            </div>
-            {# 
-            #
-            LIST OF STAGIAIRES SUB/UNSUB
-            #
-            #}
-            <div class="card-body">
-                {% if session.stagiaires|length == 0 %}
-                <div class="row g-0">
-                    <div class="col-md-12">
+
+                        {# 
+                        #
+                        LIST OF STAGIAIRES SUB/UNSUB
+                        #
+                        #}
+
+                        {% if session.stagiaires|length == 0 %}
                         <h4>Stagiaires not subscribed</h4>
                         <table class="table table-striped table-dark text-center align-middle">
                             <thead>
@@ -62,66 +57,55 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    <div>
-                </div>
-                {% elseif session.stagiaires|length == session.TotalPlaces %}
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <h4>Stagiaires subscribed</h4>
-                        <table class="table table-striped table-dark text-center align-middle">
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th scope="col">Stagiare</th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <th scope="col">Unsubscribe</th>
-                                {% endif %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for key, stagiaire in session.stagiaires %}
-                                <tr>
-                                <th scope="row">{{key + 1}}</th>
-                                <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
-                                {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    <div>
-                </div>
-                {% else %}
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <h4>Stagiaires subscribed</h4>
-                        <table class="table table-striped table-dark text-center align-middle">
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th scope="col">Stagiare</th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <th scope="col">Unsubscribe</th>
-                                {% endif %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for key, stagiaire in session.stagiaires %}
-                                <tr>
-                                <th scope="row">{{key + 1}}</th>
-                                <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
-                                {% endif %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    <div>
-                </div>
-                <div class="row g-0">
-                    <div class="col-md-12">
+                        {% elseif session.stagiaires|length == session.TotalPlaces %}
+                                <h4>Stagiaires subscribed</h4>
+                                <table class="table table-striped table-dark text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                        <th>#</th>
+                                        <th scope="col">Stagiare</th>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                            <th scope="col">Unsubscribe</th>
+                                        {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, stagiaire in session.stagiaires %}
+                                        <tr>
+                                        <th scope="row">{{key + 1}}</th>
+                                        <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                        {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                        {% else %}
+                                <h4>Stagiaires subscribed</h4>
+                                <table class="table table-striped table-dark text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                        <th>#</th>
+                                        <th scope="col">Stagiare</th>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                            <th scope="col">Unsubscribe</th>
+                                        {% endif %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key, stagiaire in session.stagiaires %}
+                                        <tr>
+                                        <th scope="row">{{key + 1}}</th>
+                                        <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
+                                        {% if is_granted("ROLE_ADMIN") %}
+                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                        {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
                         <h4>Stagiaires not subscribed</h4>
                         <table class="table table-striped table-dark text-center align-middle">
                             <thead>
@@ -147,50 +131,47 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                    <div>
-                </div>
-                {% endif %}
+                        {% endif %}
 
 
-                {# 
-                #
-                PROGRAM
-                #
-                #}
-                <div class="row g-0">
-                    <div class="col-md-16">
+                        {# 
+                        #
+                        PROGRAM
+                        #
+                        #}
                         <h4>Program</h4>
                         <table class="table table-striped table-dark text-center align-middle">
                             <thead>
                                 <tr>
-                                <th scope="col">Module</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Days</th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <th scope="col">Delete Session</th>
-                                {% endif %}
+                                    <th scope="col">Module</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Days</th>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <th scope="col">Delete Session</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
                                 {% for represent in session.represents %}
-                                <th scope="row"><a href="{{ path('show_module', {'id' : represent.modules.id}) }}">{{ represent.modules }}</a></th> 
-                                <td>{{ represent.modules.categorie }}</td>
-                                <td>{{ represent.days}} jours</td>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <td>/<td>
-                                {% endif %}
+                                <tr>
+                                    <td scope="row"><a href="{{ path('show_module', {'id' : represent.modules.id}) }}">{{ represent.modules }}</a></td>
+                                    <td>{{ represent.modules.categorie }}</td>
+                                    <td>{{ represent.days }} {{represent.days == 1 ? 'day' : 'days'}}</td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <td>/</td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                                 <tr>
-                                <th colspan=2><b>Total Days : </b></th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <th colspan=2><b> {{ totalDays }}</b></th>
-                                {% else %}
-                                    <th colspan=1><b> {{ totalDays }}</b></th>
-                                {% endif %}
-                                
-                                </tr> 
+                                    
+                                    <td colspan="2"><b>Total Days :</b></td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <td><b>{{ totalDays }} {{totalDays == 1 ? 'day' : 'days'}}</b></td>
+                                        <td></td>
+                                    {% else %}
+                                        <td><b>{{ totalDays }} {{totalDays == 1 ? 'day' : 'days'}}</b></td>
+                                    {% endif %}
+                                </tr>
                             </tbody>
                         </table>
                     <div>
