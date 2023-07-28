@@ -21,7 +21,7 @@
                         <h2 class="card-title"></h2><br>
                         <p class="card-text lh-1"><b>First name : </b>{{stagiaire.FirstName}}</p>
                         <p class="card-textlh-1"><b>Name : </b>{{stagiaire.Name|upper}}</p>
-                        <p class="card-textlh-1"><b>Email : </b>{{stagiaire.Email}}</p>
+                        <p class="card-textlh-1"><b>Email : </b><a href="mailto:{{stagiaire.Email}}">{{stagiaire.Email}}</a></p>
                         <p class="card-textlh-1"><b>Birth date : </b>{{stagiaire.DateBirth|date('d-m-Y') ~ ' (' ~ stagiaire.Age ~ ' yo)'}}</p>
 
                         {% if stagiaire.sessions|length == 0 and is_granted("ROLE_ADMIN") %}
@@ -30,8 +30,6 @@
                                 <thead>
                                     <tr>
                                     <th scope="col">Session</th>
-                                    <th scope="col">Module</th>
-                                    <th scope="col">Categorie</th>
                                     <th scope="col">Date Start</th>
                                     <th scope="col">Date End</th>
                                     <th scope="col">Inscriptions</th>
@@ -46,8 +44,6 @@
                                     <tr>
                                         {% if session.stagiaires|length < session.TotalPlaces %}
                                             <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
-                                            <td></td>
-                                            <td></td>
                                             <td>{{session.DateStart|date('d-m-Y')}}</td>
                                             <td>{{session.DateEnd|date('d-m-Y')}}</td>
                                             <td>{{session.stagiaires|length}}/{{session.TotalPlaces}}</td>
@@ -70,8 +66,6 @@
                             <thead>
                                 <tr>
                                 <th scope="col">Session</th>
-                                <th scope="col">Module</th>
-                                <th scope="col">Categorie</th>
                                 <th scope="col">Date Start</th>
                                 <th scope="col">Date End</th>
                                 <th scope="col">Inscriptions</th>
@@ -85,8 +79,6 @@
                                 {% for session in stagiaire.sessions %}
                                 <tr>
                                     <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
-                                        <td></td>
-                                        <td></td>
                                         <td>{{session.DateStart|date('d-m-Y')}}</td>
                                         <td>{{session.DateEnd|date('d-m-Y')}}</td>
                                         <td>{{session.stagiaires|length}}/{{session.TotalPlaces}}</td>
@@ -108,8 +100,6 @@
                             <thead>
                                 <tr>
                                 <th scope="col">Session</th>
-                                <th scope="col">Module</th>
-                                <th scope="col">Categorie</th>
                                 <th scope="col">Date Start</th>
                                 <th scope="col">Date End</th>
                                 <th scope="col">Inscriptions</th>
@@ -124,8 +114,6 @@
                                 <tr>
                                     {% if session.stagiaires|length < session.TotalPlaces %}
                                     <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
-                                        <td></td>
-                                        <td></td>
                                         <td>{{session.DateStart|date('d-m-Y')}}</td>
                                         <td>{{session.DateEnd|date('d-m-Y')}}</td>
                                         <td>{{session.stagiaires|length}}/{{session.TotalPlaces}}</td>
