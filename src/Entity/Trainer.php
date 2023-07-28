@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\TrainerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrainerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: TrainerRepository::class)]
 class Trainer
@@ -118,6 +119,20 @@ class Trainer
 
         return $this;
     }
+
+    public function getAge(): ?int
+    {
+        if(!$this->dateBirth) {
+            return null;
+        }
+
+        $today = new DateTime();
+
+        $age = $today->diff($this->dateBirth);
+
+        return $age->y;
+    }
+    
     public function __toString()
     {
         return $this->firstName." ".strtoupper($this->name);

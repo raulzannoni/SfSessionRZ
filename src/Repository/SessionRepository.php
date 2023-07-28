@@ -23,7 +23,7 @@ class SessionRepository extends ServiceEntityRepository
     }
 
     /** Afficher les stagiaires non inscrits */
-    public function findNotSubscribed($session_id)
+    public function findStagiairesNotSubscribed($session_id)
     {
         $em = $this->getEntityManager();
         $sub = $em->createQueryBuilder();

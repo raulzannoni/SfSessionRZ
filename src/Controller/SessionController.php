@@ -58,7 +58,7 @@ class SessionController extends AbstractController
 
 
 
-    /*  This method is developed to add and remove stagiaires from the current session*/
+    /*  This method is developed to add and remove stagiaires from the current sessio*/
     #[Route('/session/{idSession}/add_remove_Stagiaire/{idStagiaire}', name: 'add_remove_stagiaire')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
@@ -99,7 +99,7 @@ class SessionController extends AbstractController
     public function show(EntityManagerInterface $entityManager, Session $session): Response
     {
         if($session){
-            $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findNotSubscribed($session->getId());
+            $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findStagiairesNotSubscribed($session->getId());
             $module = $entityManager->getRepository(Session::class)->findModuleBySessionId($session->getId());
             $categorie = $entityManager->getRepository(Session::class)->findCategoryBySessionId($session->getId());
     

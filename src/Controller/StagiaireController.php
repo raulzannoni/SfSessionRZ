@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
 use Doctrine\ORM\EntityManager;
@@ -9,7 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class StagiaireController extends AbstractController
 {
@@ -50,6 +53,30 @@ class StagiaireController extends AbstractController
             'formAddStagiaire' => $form,
             'edit' => $stagiaire->getId()
         ]);
+    }
+
+    /*  This method is developed to add and remove session from the current stagiaire*/
+    #[Route('/stagiaire/{idStagiaire}/add_remove_Session/{idSession}', name: 'add_remove_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
+    #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
+    public function add_remove_session(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
+        
+        $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
+
+        if(in_array($stagiaire, $stagiaireSubscribed)){
+            $session->removeStagiaire($stagiaire);
+        }
+        else{
+            $session->addStagiaire($stagiaire);
+        }
+
+        $entityManager->persist($session);
+        $entityManager->persist($stagiaire);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show_stagiaire', ['id' => $stagiaire->getId()]);
     }
 
     #[Route('/stagiaire/{id}/remove', name: 'remove_stagiaire')]
