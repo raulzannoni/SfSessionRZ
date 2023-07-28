@@ -29,6 +29,7 @@ class SessionController extends AbstractController
     
     #[Route('/session/new', name: 'new_session')]
     #[Route('/session/{id}/edit', name: 'edit_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new_edit(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         if(!$session){
@@ -86,6 +87,7 @@ class SessionController extends AbstractController
 
 
     #[Route('/session/{id}/remove', name: 'remove_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function remove(Session $session, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($session);
