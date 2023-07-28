@@ -21,20 +21,27 @@ class StagiaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Stagiaire::class);
     }
 
-//    /**
-//     * @return Stagiaire[] Returns an array of Stagiaire objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Stagiaire[] Returns an array of Stagiaire objects
+     */
+    public function findStagiaireArrayInSessionId($session_id): array
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        // sélectionner tous les stagiaires d'une session dont l'id est passé en paramètre
+        $qb->select('s')
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.sessions', 'se')
+            ->where('se.id = :id')
+            ->setParameter('id', $session_id)
+            ;
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+        
+    }
 
 //    public function findOneBySomeField($value): ?Stagiaire
 //    {

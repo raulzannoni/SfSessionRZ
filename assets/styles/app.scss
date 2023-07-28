@@ -12,20 +12,4 @@ body {
     background-color: lightgray;
 }
 
-.container {
-    /* Set a fixed width and height for the container */
-    width: 500px;
-    height: 300px;
 
-    /* Add padding if necessary (optional) */
-    padding: 20px;
-
-    /* Add a border if necessary (optional) */
-    border: 1px solid #ccc;
-
-    /* Center the container horizontally and vertically */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}

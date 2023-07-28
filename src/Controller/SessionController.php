@@ -58,38 +58,21 @@ class SessionController extends AbstractController
 
 
 
-    
-
-
-
-    #[Route('/session/{idSession}/removeStagiaire/{idStagiaire}', name: 'remove_stagiaire')]
-    // #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    /*  This method is developed to add and remove stagiaires from the current session*/
+    #[Route('/session/{idSession}/add_remove_Stagiaire/{idStagiaire}', name: 'add_remove_stagiaire')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
     #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
-    public function remove_stagiaire(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
+    public function add_remove_stagiaire(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
         
-        $session->removeStagiaire($stagiaire);
+        $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
-        $entityManager->persist($session);
-        $entityManager->persist($stagiaire);
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
-    }
-
-
-
-
-
-
-    #[Route('/session/{idSession}/addStagiaire/{idStagiaire}', name: 'add_stagiaire')]
-    // #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
-    #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
-    public function add_stagiaire(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
-        
-        $session->addStagiaire($stagiaire);
+        if(in_array($stagiaire, $stagiaireSubscribed)){
+            $session->removeStagiaire($stagiaire);
+        }
+        else{
+            $session->addStagiaire($stagiaire);
+        }
 
         $entityManager->persist($session);
         $entityManager->persist($stagiaire);

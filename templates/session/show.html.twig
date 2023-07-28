@@ -12,6 +12,7 @@
     width: 100vh; 
     padding: 20px;
     ">
+    {# {{ dump(stagiaireSubscribedArray) }} #}
     <h1>Detail of Session: {{session}}</h1>
     <div class="m-0">
         <div class="card mb-3" style="max-width: 1024px;">
@@ -27,12 +28,17 @@
                     </div>
                 </div>
             </div>
+            {# 
+            #
+            LIST OF STAGIAIRES SUB/UNSUB
+            #
+            #}
             <div class="card-body">
                 {% if session.stagiaires|length == 0 %}
                 <div class="row g-0">
                     <div class="col-md-12">
                         <h4>Stagiaires not subscribed</h4>
-                        <table class="table table-striped table-dark">
+                        <table class="table table-striped table-dark text-center">
                             <thead>
                                 <tr>
                                 <th>#</th>
@@ -49,7 +55,7 @@
                                 <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <td><a href="
-                                    {{ path('add_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
+                                    {{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
                                     "><i class="fa-solid fa-plus" style="color: #06d028;"></i></a></td>
                                     {% endif %}
                                 </tr>
@@ -62,7 +68,7 @@
                 <div class="row g-0">
                     <div class="col-md-6">
                         <h4>Stagiaires subscribed</h4>
-                        <table class="table table-striped table-dark">
+                        <table class="table table-striped table-dark text-center">
                             <thead>
                                 <tr>
                                 <th>#</th>
@@ -78,7 +84,7 @@
                                 <th scope="row">{{key + 1}}</th>
                                 <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                 {% if is_granted("ROLE_ADMIN") %}
-                                    <td><a href="{#{{ path('remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}#}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                    <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
                                 {% endif %}
                                 </tr>
                                 {% endfor %}
@@ -90,7 +96,7 @@
                 <div class="row g-0">
                     <div class="col-md-6">
                         <h4>Stagiaires subscribed</h4>
-                        <table class="table table-striped table-dark">
+                        <table class="table table-striped table-dark text-center">
                             <thead>
                                 <tr>
                                 <th>#</th>
@@ -106,7 +112,7 @@
                                 <th scope="row">{{key + 1}}</th>
                                 <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                 {% if is_granted("ROLE_ADMIN") %}
-                                    <td><a href="{#{{ path('remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}#}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                    <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
                                 {% endif %}
                                 </tr>
                                 {% endfor %}
@@ -117,7 +123,7 @@
                 <div class="row g-0">
                     <div class="col-md-12">
                         <h4>Stagiaires not subscribed</h4>
-                        <table class="table table-striped table-dark">
+                        <table class="table table-striped table-dark text-center">
                             <thead>
                                 <tr>
                                 <th>#</th>
@@ -131,10 +137,10 @@
                                 {% for key, stagiaire in stagiairesNotSubscribed %}
                                 <tr>
                                 <th scope="row">{{key + 1}}</th>
-                                <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
+                                <th scope="row"><a href=" {{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <td><a href="
-                                    {{ path('add_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
+                                    {{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
                                     "><i class="fa-solid fa-plus" style="color: #06d028;"></i></a></td>
                                 {% endif %}
                                 </tr>
@@ -145,10 +151,16 @@
                 </div>
                 {% endif %}
 
+
+                {# 
+                #
+                PROGRAM
+                #
+                #}
                 <div class="row g-0">
                     <div class="col-md-16">
                         <h4>Program</h4>
-                        <table class="table table-striped table-dark">
+                        <table class="table table-striped table-dark text-center">
                             <thead>
                                 <tr>
                                 <th scope="col">Module</th>
