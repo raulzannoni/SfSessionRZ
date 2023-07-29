@@ -51,7 +51,7 @@
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <td><a href="
                                     {{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
-                                    "><i class="fa-solid fa-plus" style="color: #06d028;"></i></a></td>
+                                    "><i class="fa-solid fa-user-plus fa-bounce" style="color: #008000;"></i></a></td>
                                     {% endif %}
                                 </tr>
                                 {% endfor %}
@@ -75,7 +75,7 @@
                                         <th scope="row">{{key + 1}}</th>
                                         <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                         {% if is_granted("ROLE_ADMIN") %}
-                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-user-minus fa-bounce" style="color: #ff0000;"></i></a></td>
                                         {% endif %}
                                         </tr>
                                         {% endfor %}
@@ -99,7 +99,7 @@
                                         <th scope="row">{{key + 1}}</th>
                                         <th scope="row"><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></th>
                                         {% if is_granted("ROLE_ADMIN") %}
-                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-trash-can" style="color: #ff0000;"></i></a></td>
+                                            <td><a href="{{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}"><i class="fa-solid fa-user-minus fa-bounce" style="color: #ff0000;"></i></a></td>
                                         {% endif %}
                                         </tr>
                                         {% endfor %}
@@ -125,7 +125,7 @@
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <td><a href="
                                     {{ path('add_remove_stagiaire', {'idSession' : session.id, 'idStagiaire' : stagiaire.id}) }}
-                                    "><i class="fa-solid fa-plus" style="color: #06d028;"></i></a></td>
+                                    "><i class="fa-solid fa-user-plus fa-bounce" style="color: #008000;"></i></a></td>
                                 {% endif %}
                                 </tr>
                                 {% endfor %}
