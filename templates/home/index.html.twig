@@ -12,22 +12,207 @@
     width: 100vh; 
     padding: 20px;
     ">
-    {% if app.user %}
+    {% if app.user and not is_granted("ROLE_ADMIN")%}
         <h1>Welcome {{app.user.pseudo}} !</h1>
         <p>This app has been developed to manage stagiaires and sessions.</p><br>
         <p>Now that you have registered, you can consult all the details of interns, sessions and trainers.</p><br>
         <p>Enjoy the app {{app.user.pseudo}}!!!</p>
+        <h2>Current Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsNow %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Upcoming Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsFuture %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Previous Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsPast %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% elseif is_granted("ROLE_ADMIN")  %}
-        <h1>Welcome ADMIN !</h1>
-        <p>This app has been developed to manage stagiaires and sessions.</p><br>
-        <p>As an administrator, now you can edit sessions and trainers, sign up and unsubscribe stagiaires, and schedule modules.</p><br>
-        <p>Enjoy the app {{app.user.pseudo}}!!!</p>
-    {% else %}
-        <h1>Welcome !</h1>
-        <p>This app has been developed to manage stagiaires and sessions.</p>
-        <p>As long as you do not register with an email or login with a profile, you can only consult the categories, modules and sessions proposed.</p>
-        <p>Enjoy the app visitor!!!</p>
-    {% endif %}
+            <h1>Welcome ADMIN !</h1>
+            <p>This app has been developed to manage stagiaires and sessions.</p><br>
+            <p>As an administrator, now you can edit sessions and trainers, sign up and unsubscribe stagiaires, and schedule modules.</p><br>
+            <p>Enjoy the app {{app.user.pseudo}}!!!</p>
+
+            <h2>Current Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsNow %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                        <td><a class="btn btn-warning" href="{{ path('edit_session', {'id' : session.id}) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Upcoming Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsFuture %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                        <td><a class="btn btn-warning" href="{{ path('edit_session', {'id' : session.id}) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Previous Sessions</h2>
+        <table class="table table-striped table-dark text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col">Inscription</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, session in sessionsPast %}
+                <tr>
+                    <th scope="row">{{key + 1}}</th>
+                        <td><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></td>
+                        <td>{{session.DateStart|date('d-m-Y')}}</td>
+                        <td>{{session.DateEnd|date('d-m-Y')}}</td>
+                        <td>{{session.stagiaires|length ~'/'~ session.TotalPlaces}}</td>
+                        {% if session.stagiaires|length == session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #ff0000;"></i></td>
+                        {% elseif session.stagiaires|length < session.TotalPlaces %}
+                            <td><i class="fa-solid fa-circle" style="color: #00ff40;"></i></td>
+                        {% endif %}
+                        <td><a class="btn btn-warning" href="{{ path('edit_session', {'id' : session.id}) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <h1>Welcome !</h1>
+            <p>This app has been developed to manage stagiaires and sessions.</p>
+            <p>As long as you do not register with an email or login with a profile, you can only consult the categories, modules and sessions proposed.</p>
+            <p>Enjoy the app visitor!!!</p>
+        {% endif %}
 </div>    
 
 {% endblock %}
