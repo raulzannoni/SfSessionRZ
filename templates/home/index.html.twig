@@ -12,7 +12,18 @@
     width: 100vh; 
     padding: 20px;
     ">
-    {% if app.user and not is_granted("ROLE_ADMIN")%}
+    {% if not app.user %}
+        <h1>Welcome !</h1>
+        <p>This app has been developed to manage stagiaires and sessions.</p>
+        <p>As long as you do not register with an email or login with a profile, you can only consult the categories, modules and sessions proposed.</p>
+        <p>Enjoy the app visitor!!!</p>
+    {% elseif app.user.isVerified == false %}
+        <h1>Welcome {{app.user.pseudo}} !</h1>
+        <p>As long as you do not check and confirm your email, you still have the same priviliges as a normal visitor: you can only consult the categories, modules and sessions proposed.</p>
+        <a href="http://localhost:8025/#">Go to MailHog</a>
+        <p></p>
+        <p>Enjoy the app {{app.user.pseudo}}!!!</p>
+    {% elseif app.user.isVerified == true and not is_granted("ROLE_ADMIN")%}
         <h1>Welcome {{app.user.pseudo}} !</h1>
         <p>This app has been developed to manage stagiaires and sessions.</p><br>
         <p>Now that you have registered, you can consult all the details of interns, sessions and trainers.</p><br>
@@ -207,12 +218,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% else %}
-            <h1>Welcome !</h1>
-            <p>This app has been developed to manage stagiaires and sessions.</p>
-            <p>As long as you do not register with an email or login with a profile, you can only consult the categories, modules and sessions proposed.</p>
-            <p>Enjoy the app visitor!!!</p>
-        {% endif %}
+    {% endif %}
 </div>    
 
 {% endblock %}

@@ -42,15 +42,18 @@
                     <a class="fancy-button" href="{{ path('app_home') }}"> Home</a>
                     <a class="fancy-button" href="{{ path('app_categorie') }}"> Categories</a>
                     <a class="fancy-button" href="{{ path('app_module') }}">Modules</a>
-                    {% if app.user %}
+                    {% if not app.user %}
+                        <a class="fancy-button" href="{{ path('app_register') }}">Register</a>
+                        <a class="fancy-button" href="{{ path('app_login') }}">Login</a>
+                    {% elseif app.user.isVerified == false %}
+                        <a class="fancy-button" href="{{ path('app_profile') }}">My profile</a>
+                        <a class="fancy-button" href="{{ path('app_logout') }}">Logout</a>
+                    {% elseif app.userisVerified == true %}
                         <a class="fancy-button" href="{{ path('app_session') }}">Sessions</a>
                         <a class="fancy-button" href="{{ path('app_stagiaire') }}">Stagiaires</a>
                         <a class="fancy-button" href="{{ path('app_trainer') }}">Trainers</a>
                         <a class="fancy-button" href="{{ path('app_profile') }}">My profile</a>
                         <a class="fancy-button" href="{{ path('app_logout') }}">Logout</a>
-                    {% else %}
-                        <a class="fancy-button" href="{{ path('app_register') }}">Register</a>
-                        <a class="fancy-button" href="{{ path('app_login') }}">Login</a>
                     {% endif %}
                     {% if is_granted("ROLE_ADMIN") %}
                         <a class="fancy-button" href="{{ path('app_admin') }}">ADMIN</a>
