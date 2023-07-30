@@ -20,6 +20,9 @@ class StagiaireController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         //SELECT * FROM  stagiaire ORDER BY name ASC
         $stagiaires = $entityManager->getRepository(Stagiaire::class)->findBy([], ['name' => 'ASC']);
         return $this->render('stagiaire/index.html.twig', [
@@ -32,6 +35,9 @@ class StagiaireController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new(Stagiaire $stagiaire = null, Request $request, EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if (!$this->isGranted("ROLE_ADMIN")) {
             return $this->redirectToRoute('app_stagiaire');
         } else {
@@ -65,6 +71,9 @@ class StagiaireController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function remove(Stagiaire $stagiaire, EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($this->isGranted("ROLE_ADMIN")){
             $entityManager->remove($stagiaire);
             $entityManager->flush();
@@ -79,6 +88,9 @@ class StagiaireController extends AbstractController
     #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
     #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
     public function add_remove_session(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($this->isGranted("ROLE_ADMIN")) {
             $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
@@ -103,6 +115,9 @@ class StagiaireController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function show(EntityManagerInterface $entityManager,Stagiaire $stagiaire): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($stagiaire){
             $sessionsNotSubscribed = $entityManager->getRepository(Stagiaire::class)->findSessionsNotSubscribed($stagiaire->getId());
         

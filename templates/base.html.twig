@@ -48,7 +48,7 @@
                     {% elseif app.user.isVerified == false %}
                         <a class="fancy-button" href="{{ path('app_profile') }}">My profile</a>
                         <a class="fancy-button" href="{{ path('app_logout') }}">Logout</a>
-                    {% elseif app.userisVerified == true %}
+                    {% elseif app.user.isVerified == true %}
                         <a class="fancy-button" href="{{ path('app_session') }}">Sessions</a>
                         <a class="fancy-button" href="{{ path('app_stagiaire') }}">Stagiaires</a>
                         <a class="fancy-button" href="{{ path('app_trainer') }}">Trainers</a>

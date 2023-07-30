@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Stagiaire;
+use App\Entity\User;
 use App\Form\SessionType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,9 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         $sessions = $entityManager->getRepository(Session::class)->findAll();
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions
@@ -33,6 +37,9 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new_edit(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if (!$this->isGranted("ROLE_ADMIN")) {
             return $this->redirectToRoute('app_session');
         } else {
@@ -70,6 +77,9 @@ class SessionController extends AbstractController
     #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
     public function add_remove_stagiaire(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
         
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($this->isGranted("ROLE_ADMIN")){
             $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
@@ -98,6 +108,9 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function remove(Session $session, EntityManagerInterface $entityManager): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($this->isGranted("ROLE_ADMIN")){
             $entityManager->remove($session);
             $entityManager->flush();
@@ -111,6 +124,9 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function show(EntityManagerInterface $entityManager, Session $session): Response
     {
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
         if($session){
             $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findStagiairesNotSubscribed($session->getId());
             $module = $entityManager->getRepository(Session::class)->findModuleBySessionId($session->getId());
