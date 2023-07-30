@@ -29,8 +29,11 @@
                                 }) }}
                                 {{ form_row(registrationForm.agreeTerms) }}
 
-                                <button type="submit" class="btn btn-lg btn-primary">Register</button>
+                                <button type="submit" class="btn btn-lg btn-primary mb-4">Register</button>
                                 {{ form_end(registrationForm) }}
+
+                                <p class="d-inline">Already have an account?</p>
+                                <a class="d-inline"href="{{ path('app_login') }}">Login</a>
                             </div>
                         </div>
                     </div>
