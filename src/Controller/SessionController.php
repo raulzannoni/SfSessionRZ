@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class SessionController extends AbstractController
 {
     #[Route('/session', name: 'app_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $sessions = $entityManager->getRepository(Session::class)->findAll();
@@ -32,54 +33,61 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new_edit(Session $session = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if(!$session){
-            $session = new Session();
-        }
-
-        $form = $this->createForm(SessionType::class, $session);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $session = $form->getData();
-            //prepare PDO
-            $entityManager->persist($session);
-            //execute PDO
-            $entityManager->flush();
-
+        if (!$this->isGranted("ROLE_ADMIN")) {
             return $this->redirectToRoute('app_session');
-
+        } else {
+            if(!$session){
+                $session = new Session();
+            }
+    
+            $form = $this->createForm(SessionType::class, $session);
+    
+            $form->handleRequest($request);
+    
+            if($form->isSubmitted() && $form->isValid()) {
+    
+                $session = $form->getData();
+                //prepare PDO
+                $entityManager->persist($session);
+                //execute PDO
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('app_session');
+    
+            }
+            return $this->render('session/new.html.twig', [
+                'formAddSession' => $form,
+                'edit' => $session->getId()
+            ]);
         }
-        return $this->render('session/new.html.twig', [
-            'formAddSession' => $form,
-            'edit' => $session->getId()
-        ]);
     }
 
 
-
-    /*  This method is developed to add and remove stagiaires from the current sessio*/
+    /*  This method is developed to add and remove stagiaires from the current session */
     #[Route('/session/{idSession}/add_remove_Stagiaire/{idStagiaire}', name: 'add_remove_stagiaire')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
     #[ParamConverter("stagiaire", options: ['mapping' => ["idStagiaire" => "id"]])]
     public function add_remove_stagiaire(Session $session, Stagiaire $stagiaire, EntityManagerInterface $entityManager) {
         
-        $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
+        if($this->isGranted("ROLE_ADMIN")){
+            $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
-        if(in_array($stagiaire, $stagiaireSubscribed)){
-            $session->removeStagiaire($stagiaire);
+            if(in_array($stagiaire, $stagiaireSubscribed)){
+                $session->removeStagiaire($stagiaire);
+            }
+            else{
+                if($session->getTotalPlaces() <  sizeof($stagiaireSubscribed)){
+                    $session->addStagiaire($stagiaire);
+                }
+            }
+
+            $entityManager->persist($session);
+            $entityManager->persist($stagiaire);
+
+            $entityManager->flush();
         }
-        else{
-            $session->addStagiaire($stagiaire);
-        }
-
-        $entityManager->persist($session);
-        $entityManager->persist($stagiaire);
-
-        $entityManager->flush();
-
+        
         return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
     }
 
@@ -90,14 +98,17 @@ class SessionController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function remove(Session $session, EntityManagerInterface $entityManager): Response
     {
-        $entityManager->remove($session);
-        $entityManager->flush();
-        
+        if($this->isGranted("ROLE_ADMIN")){
+            $entityManager->remove($session);
+            $entityManager->flush();
+        }
+
         return $this->redirectToRoute('app_session');
     }
     
 
     #[Route('/session/{id}', name: 'show_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function show(EntityManagerInterface $entityManager, Session $session): Response
     {
         if($session){
