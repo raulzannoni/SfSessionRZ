@@ -20,7 +20,7 @@
     {% elseif app.user.isVerified == false %}
         <h1>Welcome {{app.user.pseudo}} !</h1>
         <p>As long as you do not check and confirm your email, you still have the same priviliges as a normal visitor: you can only consult the categories, modules and sessions proposed.</p>
-        <a href="http://localhost:8025/#">Go to MailHog</a>
+        <a href="http://localhost:8025/#" target="_blank">Go to MailHog</a>
         <p></p>
         <p>Enjoy the app {{app.user.pseudo}}!!!</p>
     {% elseif app.user.isVerified == true and not is_granted("ROLE_ADMIN")%}
