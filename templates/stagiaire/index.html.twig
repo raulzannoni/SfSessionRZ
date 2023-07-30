@@ -37,7 +37,7 @@
                 <th scope="row">{{key + 1}}</th>
                     <td><a href="{{ path('show_stagiaire', {'id' : stagiaire.id}) }}">{{stagiaire}}</a></td>
                     <td>{{stagiaire.DateBirth|date('d-m-Y')}}</td>
-                    <td><a href="mailto:{{stagiaire.Email}}">{{stagiaire.Email}}</a></td>
+                    <td><a href="mailto:{{stagiaire.Email}}" target="_blank">{{stagiaire.Email}}</a></td>
                     <td>{{stagiaire.sessions|length}}</td>
                     {% if is_granted("ROLE_ADMIN") %}
                         <td><a class="btn btn-warning" href="{{ path('edit_stagiaire', {'id' : stagiaire.id}) }}">Edit</a></td>

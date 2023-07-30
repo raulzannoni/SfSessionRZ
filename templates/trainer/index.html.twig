@@ -36,7 +36,7 @@
                 <th scope="row">{{key + 1}}</th>
                     <td><a href="{{ path('show_trainer', {'id' : trainer.id}) }}">{{trainer}}</a></td>
                     <td>{{trainer.DateBirth|date('d-m-Y')}}</td>
-                    <td><a href="mailto:{{trainer.Email}}">{{trainer.Email}}</a></td>
+                    <td><a href="mailto:{{trainer.Email}}" target="_blank">{{trainer.Email}}</a></td>
                     <td>{{trainer.sessions|length}}</td>
                     {% if is_granted("ROLE_ADMIN") %}
                         <td><a class="btn btn-warning"href="{{ path('edit_trainer', {'id' : trainer.id}) }}">Edit</a></td>
