@@ -41,14 +41,14 @@
                         <tbody>
                             {% for represent in module.represents %}
                             <tr>
-                            {% if app.user %}
+                            {% if app.user.isVerified == true %}
                                 <th scope="row"><a href="{{ path('show_session', {'id' : represent.sessions.id}) }}">{{represent.sessions}}</a></th>
                             {% else %}
                                 <th scope="row">{{represent.sessions}}</th>
                             {% endif %}
                             <td>{{represent.sessions.dateStart|date('d-m-Y')}}</td>
                             <td>{{represent.sessions.dateEnd|date('d-m-Y')}}</td>
-                            {% if app.user %}
+                            {% if app.user.isVerified == true %}
                                 <td><a href="{{ path('show_trainer', {'id' : represent.sessions.trainer.id}) }}">{{represent.sessions.trainer}}</a></td>
                             {% else %}
                                 <td>{{represent.sessions.trainer}}</td>
