@@ -85,7 +85,7 @@ class SessionController extends AbstractController
             $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
             
             if(in_array($stagiaire, $stagiaireSubscribed)){
-              
+            
                 $session->removeStagiaire($stagiaire);
             }
             else{
@@ -130,9 +130,8 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
         if($session){
+            $modulesNotProgrammed = $entityManager->getRepository(Session::class)->findModulesNotProgrammed($session->getId());
             $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findStagiairesNotSubscribed($session->getId());
-            $module = $entityManager->getRepository(Session::class)->findModuleBySessionId($session->getId());
-            $categorie = $entityManager->getRepository(Session::class)->findCategoryBySessionId($session->getId());
     
             $totalDays = 0;
     
@@ -143,8 +142,7 @@ class SessionController extends AbstractController
             return $this->render('session/show.html.twig', [
                 'session' => $session,
                 'stagiairesNotSubscribed' => $stagiairesNotSubscribed,
-                'module' => $module,
-                'categorie' => $categorie,
+                'modulesNotProgrammed' => $modulesNotProgrammed,
                 'totalDays' => $totalDays
             ]);
         } else {

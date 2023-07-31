@@ -36,6 +36,9 @@
                             <th scope="col">Date Start</th>
                             <th scope="col">Date End</th>
                             <th scope="col">Teacher</th>
+                            {% if is_granted("ROLE_ADMIN") %}
+                                    <th scope="col">Remove</th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -53,14 +56,40 @@
                             {% else %}
                                 <td>{{represent.sessions.trainer}}</td>
                             {% endif %}
+                            {% if is_granted("ROLE_ADMIN") %}
+                                    <td><a href=""><i class="fa-solid fa-minus fa-bounce" style="color: #ff0000;"></i></a></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                             <tr>
-                            {#<th colspan=2><b>Total Days : </b></th>
-                            <th colspan=2><b> Oibo</b></th>
-                            </tr> #}
                         </tbody>
                     </table>
+                    {% if is_granted("ROLE_ADMIN") %}
+                    <h4>Sessions Not Programmed</h4>
+                    <table class="table table-striped table-dark text-center align-middle">
+                        <thead>
+                            <tr>
+                            <th scope="col">Session</th>
+                            <th scope="col">Date Start</th>
+                            <th scope="col">Date End</th>
+                            <th scope="col">Teacher</th>
+                            <th scope="col">Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for session in sessionsNotProgrammed %}
+                            <tr>
+                                <th scope="row"><a href="{{ path('show_session', {'id' : session.id}) }}">{{session}}</a></th>
+                                <td>{{session.dateStart|date('d-m-Y')}}</td>
+                                <td>{{session.dateEnd|date('d-m-Y')}}</td>
+                                <td><a href="{{ path('show_trainer', {'id' : session.trainer.id}) }}">{{session.trainer}}</a></td>
+                                <td><a href=""><i class="fa-solid fa-plus fa-bounce" style="color: #008000;"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                        </tbody>
+                    </table>
+                    {% endif %}
                 <div>
             </div>
         </div>

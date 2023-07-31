@@ -17,9 +17,11 @@ class Represent
     private ?int $days = null;
 
     #[ORM\ManyToOne(inversedBy: 'represents')]
+    #[ORM\JoinColumn(nullable:false)]
     private ?Session $sessions = null;
 
     #[ORM\ManyToOne(inversedBy: 'represents')]
+    #[ORM\JoinColumn(nullable:false)]
     private ?Module $modules = null;
 
     public function getId(): ?int

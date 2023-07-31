@@ -71,6 +71,38 @@ class SessionRepository extends ServiceEntityRepository
 
     }
 
+    public function findModulesNotProgrammed($session_id) {
+
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        $qb->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->leftJoin('m.represents', 'r')
+            ->where('r.sessions = :id');
+        
+        $sub = $em->createQueryBuilder();
+        $sub->select('mo')
+            ->from('App\Entity\Module', 'mo')
+            ->where($sub->expr()->notIn('mo.id', $qb->getDQL()))
+            ->setParameter('id', $session_id);
+        
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+    public function findSessionsNotProgrammed($module_id)
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.represents', 'r') 
+            ->andwhere('r.modules != :moduleId OR r.modules IS NULL')
+            ->orWhere('r.sessions IS NULL')   
+            ->setParameter('moduleId', $module_id)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findCategoryBySessionId($session_id)
     {
         $em = $this->getEntityManager();

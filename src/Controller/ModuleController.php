@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Module;
+use App\Entity\Session;
 use App\Form\ModuleType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,12 +79,14 @@ class ModuleController extends AbstractController
     }
 
     #[Route('/module/{id}', name: 'show_module')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function show(EntityManagerInterface $entityManager, Module $module): Response
     {
-        //$sessionsInModule = $entityManager->getRepository(Module::class)->findSessionsByModuleId($module->getId());
+
+        $sessionsNotProgrammed = $entityManager->getRepository(Module::class)->findSessionsNotProgrammed($module->getId());
         return $this->render('module/show.html.twig', [
             'module' => $module,
-            //'sessionsInModule' => $sessionsInModule
+            'sessionsNotProgrammed' => $sessionsNotProgrammed
         ]);
     }
 }
