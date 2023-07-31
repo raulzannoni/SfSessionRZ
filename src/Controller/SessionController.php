@@ -81,13 +81,15 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
         if($this->isGranted("ROLE_ADMIN")){
-            $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
 
+            $stagiaireSubscribed = $entityManager->getRepository(Stagiaire::class)->findStagiaireArrayInSessionId($session->getId());
+            
             if(in_array($stagiaire, $stagiaireSubscribed)){
+              
                 $session->removeStagiaire($stagiaire);
             }
             else{
-                if($session->getTotalPlaces() <  sizeof($stagiaireSubscribed)){
+                if($session->getTotalPlaces() >  sizeof($stagiaireSubscribed)){
                     $session->addStagiaire($stagiaire);
                 }
             }
