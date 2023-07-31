@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ edit ? "Edit" : "New" }} Module{% endblock %}
+
+{% block body %}
+    <div class="container h-100 w-100" style=
+    "height: 100vh; 
+    width: 100vh; 
+    padding: 20px;
+    ">
+    {% if edit %}
+        <h1>Edit Module</h1>
+    {% else %}
+        <h1>Add new Module</h1>
+    {% endif %}
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-11">
+                <div class="card text-black custom-card mx-auto my-5 d-flex" style="width: 550px; border-radius: 25px;">
+                    <div class="card-body p-md-5 d-flex justify-content-center align-items-center">
+                        <!-- Adjust the width value as per your requirement -->
+                        <div class="row justify-content-center" style="width: 100%; max-width: 550px;">
+                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 w-100">
+                                {{ form_start(formAddModule) }}
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            {{ form_row(formAddModule.title) }}
+                                        </div>
+                                        <div class="col-sm">
+                                            {{ form_row(formAddModule.categorie) }}
+                                        </div>
+                                    </div>
+                                {{ form_end(formAddModule) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

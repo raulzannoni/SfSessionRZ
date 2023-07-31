@@ -13,11 +13,20 @@
     padding: 20px;
     ">
     <h1>List of Modules</h1>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('new_module')}}" class="btn btn-success mb-3">Add Module</a><br>
+    {% endif %}
     <table class="table table-striped table-dark text-center align-middle">
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">Module Name</th>
+            <th scope="col">Module</th>
+            <th scope="col">Categorie</th>
+            <th scope="col">N° of Sessions</th>
+            {% if is_granted("ROLE_ADMIN") %}
+                <th scope="col">Edit</th>
+                <th scope="col">Remove</th>
+            {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -25,6 +34,12 @@
             <tr>
                 <th scope="row">{{key + 1}}</th>
                     <td><a href="{{ path('show_module', {'id' : module.id}) }}">{{module}}</a></td>
+                    <td><a href="{{ path('show_categorie', {'id' : module.categorie.id}) }}">{{module.categorie}}</a></td>
+                    <td>{{module.represents|length}}</td>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <td><a class="btn btn-warning" href="{{ path('edit_module', {'id' : module.id}) }}">Edit</a></td>
+                        <td><a class="btn btn-danger" href="{{ path('remove_module', {'id' : module.id}) }}">Remove</a></td>
+                    {% endif %}
             </tr>
             {% endfor %}
         </tbody>
