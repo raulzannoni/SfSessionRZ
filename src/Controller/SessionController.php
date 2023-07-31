@@ -165,7 +165,7 @@ class SessionController extends AbstractController
                         }
                     }
                 }
-                //dd($represent);
+
                 $entityManager->remove($represent);
                 $entityManager->flush();
             }

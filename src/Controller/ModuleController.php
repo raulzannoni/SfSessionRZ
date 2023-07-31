@@ -84,7 +84,7 @@ class ModuleController extends AbstractController
     #[Route('/module/{idModule}/program/{idSession}', name: 'program_module')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[ParamConverter("module", options: ['mapping' => ["idModule" => "id"]])]
-    #[ParamConverter("module", options: ['mapping' => ["idSession" => "id"]])]
+    #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
     public function program(Session $session, Module $module, EntityManagerInterface $entityManager, Request $request) {
         
         if(!$this->getUser()->isVerified()){
@@ -120,7 +120,6 @@ class ModuleController extends AbstractController
                         }
                     }
                 }
-                //dd($represent);
                 $entityManager->remove($represent);
                 $entityManager->flush();
             }
@@ -130,6 +129,8 @@ class ModuleController extends AbstractController
 
             $entityManager->flush();
         }
+
+        return $this->redirectToRoute('show_module', ['id' => $module->getId()]);
 
     }
 
