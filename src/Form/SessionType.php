@@ -61,9 +61,6 @@ class SessionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //->add('stagiaires', EntityType::class, [
-            //    'class' => Stagiaire::class
-            //])
             ->add('Add', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary'

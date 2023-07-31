@@ -92,44 +92,6 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findSessionsNotProgrammed($module_id)
-    {
-        return $this->createQueryBuilder('s')
-            ->leftJoin('s.represents', 'r') 
-            ->andwhere('r.modules != :moduleId OR r.modules IS NULL')
-            ->orWhere('r.sessions IS NULL')   
-            ->setParameter('moduleId', $module_id)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findCategoryBySessionId($session_id)
-    {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-
-        // sélectionner le module d'une session dont l'id est passé en paramètre
-        $sub->select('c.title')
-            ->from('App\Entity\represent', 'r')
-            ->join('r.modules', 'm')
-            ->join('m.categorie', 'c')
-            ->join('r.sessions', 's')
-            ->where('s.id = :id')
-            ->setParameter('id', $session_id);
-
-        // renvoyer le résultat
-        $query = $sub->getQuery();
-        return $query->getResult();
-
-    }
-
-    public function addStagiaireById($session_id)
-    {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-    }
-
-
     /**
      * @return Session[] Returns an array of Session objects
      */

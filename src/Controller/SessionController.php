@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Session;
-use App\Entity\Stagiaire;
 use App\Entity\User;
+use App\Entity\Module;
+use App\Entity\Session;
+use App\Entity\Represent;
+use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,6 +18,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 class SessionController extends AbstractController
 {
@@ -120,16 +123,78 @@ class SessionController extends AbstractController
 
         return $this->redirectToRoute('app_session');
     }
+
+
+    /*  This method is developed to program the current session in a specified module (to add and remove)*/
+    #[Route('/session/{idSession}/program/{idModule}', name: 'program_session')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[ParamConverter("session", options: ['mapping' => ["idSession" => "id"]])]
+    #[ParamConverter("module", options: ['mapping' => ["idModule" => "id"]])]
+    public function program(Session $session, Module $module, EntityManagerInterface $entityManager, Request $request) {
+        
+        if(!$this->getUser()->isVerified()){
+            return $this->redirectToRoute('app_home');
+        }
+        if($this->isGranted("ROLE_ADMIN")){
+
+            $sessionsNotProgrammed = $entityManager->getRepository(Module::class)->findSessionsNotProgrammed($module->getId());
+            
+            if(in_array($session, $sessionsNotProgrammed)){
+                
+                $days = $request->get('days'); 
+                
+                $represent = new Represent();
+                $represent->setDays($days);
+                $session->addRepresent($represent);
+                $module->addRepresent($represent);
+                $entityManager->persist($represent);
+                $entityManager->flush();
+                
+            } else{
+                $representSession = iterator_to_array($session->getRepresents());
+                
+                $representModule = iterator_to_array($module->getRepresents());
+
+                $represent = new Represent();
+
+                foreach($representModule as $representM){
+                    foreach($representSession as $representS ) {
+                        if($representS == $representM){
+                            $represent = $representS;
+                            break;
+                        }
+                    }
+                }
+                //dd($represent);
+                $entityManager->remove($represent);
+                $entityManager->flush();
+            }
+            
+            $entityManager->persist($session);
+            $entityManager->persist($module);
+
+            $entityManager->flush();
+        }
+        
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+
+
+    
+
+
+
     
 
     #[Route('/session/{id}', name: 'show_session')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function show(EntityManagerInterface $entityManager, Session $session): Response
+    public function show(EntityManagerInterface $entityManager, Session $session, Request $request): Response
     {
         if(!$this->getUser()->isVerified()){
             return $this->redirectToRoute('app_home');
         }
         if($session){
+
             $modulesNotProgrammed = $entityManager->getRepository(Session::class)->findModulesNotProgrammed($session->getId());
             $stagiairesNotSubscribed = $entityManager->getRepository(Session::class)->findStagiairesNotSubscribed($session->getId());
     
@@ -138,6 +203,9 @@ class SessionController extends AbstractController
             foreach($session->getRepresents() as $represent) {
                 $totalDays += $represent->getDays();
             }
+
+
+
     
             return $this->render('session/show.html.twig', [
                 'session' => $session,
