@@ -139,7 +139,10 @@
                         PROGRAM
                         #
                         #}
-                        <h4>Modules where the session is Programmed</h4>
+                        <h4>Modules programmed with the {{session}} session</h4>
+                        {% if session.represents|length == 0 %}
+                        <p>The {{session}} session is still not programmed in any module.</p>    
+                        {% else %}
                         <table class="table table-striped table-dark text-center align-middle">
                             <thead>
                                 <tr>
@@ -174,13 +177,15 @@
                                 </tr>
                             </tbody>
                         </table>
+                        {% endif %}
                         {% if is_granted("ROLE_ADMIN") %}
-                        <h4>Modules where the session is not Programmed</h4>
+                        <h4>Modules not programmed with the {{session}} session</h4>
                         <table class="table table-striped table-dark text-center align-middle">
                             <thead>
                                 <tr>
                                     <th scope="col">Module</th>
                                     <th scope="col">Category</th>
+                                    <th scope="col">Days</th>
                                     {% if is_granted("ROLE_ADMIN") %}
                                         <th scope="col">Add Session</th>
                                     {% endif %}
@@ -191,6 +196,7 @@
                                 <tr>
                                     <td scope="row"><a href="{{ path('show_module', {'id' : module.id}) }}">{{ module }}</a></td>
                                     <td>{{ module.categorie }}</td>
+                                    <td>jours</td>
                                     <td><a href=""><i class="fa-solid fa-plus fa-bounce" style="color: #008000;"></i></a></td>
 
                                 </tr>
